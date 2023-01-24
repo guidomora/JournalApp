@@ -2,4 +2,67 @@
 npm install react-router-dom
 npm install @mui/material @emotion/react @emotion/styled
 npm install @mui/icons-material
+npm install @reduxjs/toolkit
+npm install firebase
+
+
+############################################################################
+
+pasos de redux:
+
+1) instalamos redux
+2) creamos el store y usamos el provider de redux en main
+3) usamos el custom hook para que funcione el form
+4) creamos el slice
+5) creamos el thunk
+6) hicimos que el status (slice) pase de not-authenticated a checking (funcion onSubmit)
+    en el thunk hicimos el dispatch del checkinCredentials y en LoginPage hicimos el dispatch
+    del checkingAuthentication (thunk)
+7) lo mismo que el paso 6 pero con la funcion de google (funcion onGoogleSignIn)
+
+----------------------
+
+Configurando Firebase:
+
+1) instalamos firebase
+2) lo configuramos, pegamos el codigo que nos da
+3) importamos getAuth y getFirestore, creamos las constantes y las exportamos
+4) creamos el archivo providers.js donde iria la configuracion de la autenticacion 
+5) en el LoginPage.jsx en la funcion para el boton de google le pasamos en rl dispatch startGoogleSignIn()
+6) en el thunk agregamos un condicional para agregar la funcion de logout cuando no se completa el Login
+7) en el slice, agregamos el estado en cada reducer
+8) en thunk hacemmos dispatch de login y su payload
+9) en LoginPage con el useSelector traemos el status y creamos una funcion para que desabilite los botones
+    para cuando el estado sea "checking"
+---------------------
+
+Formulario de registro:
+
+1) en RegisterPage le agregamos funcionalidad al formulario, onSubmit, value, name, on change
+2) MUI tiene props de error y helperText, las ponemos para hacer validaciones mas adelante
+3) en la desestructuracion del useForm (en RegisterPage) agregamos  isFormValid,
+    displayNameValid,
+    emailValid,
+    passwordValid,
+4) creamos un objeto que se llama formValidations donde tenemos las condiciones
+5) pasamos como segundo argumento al useForm el formValidations (esto en RegisterPage)
+6) lo mismo que el paso 6 pero en el archivo del useForm
+7) en el useForm creamos un useState, useEffect y una funcion createValidators
+    la idea del useState es que nos diga si hay un error o no. El createValidators se va a disparar
+    con el useEffect
+8) creamos el for (es un quilombo esta toda la explicacion comentada)
+9) esparcimos el formValidation en el return (...formValidation)
+
+--------------------
+
+Validacion de formulario:
+
+1) creamos la funcion isFormValid en el useForm y lo pasamos al return del customHook
+2) agregamos las propiedades de error y helperText al resto de los inputs
+3)borramos los datos del estado inicial para que queden vacios
+4) para que de arranque no este todo en rojo hacemos lo siguiente:
+    - creamos un nuevo state en RegisterPage
+    - en las propiedades de error de los inputs le agregamos "&& formSubmitted"
+    para que el error se ejecute solo cuando mandamos el form
+
 
