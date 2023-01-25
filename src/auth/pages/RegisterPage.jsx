@@ -1,8 +1,10 @@
 import { Link as RouterLink } from "react-router-dom";
-import { Button, Grid, Link, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material";
+import React, { useMemo, useState } from "react";
 import AuthLayout from "../layout/AuthLayout";
 import useForm from "../../hooks/useForm";
+import { useDispatch, useSelector } from "react-redux";
+import { startCreatingUserWithEmailPassword } from "../../store/thunks";
 
 const formData = {
   email: "",
@@ -12,14 +14,22 @@ const formData = {
 
 const formValidations = {
   // ejemplo el value incluye @ sino, el mensaje de error: "el correo deben tener @"
-  email: [ (value) => value.includes('@'), 'El correo debe de tener una @'],
-  password: [(value) => value.length >= 6, "El password debe tener 6 o mas caracteres"],
+  email: [(value) => value.includes("@"), "El correo debe de tener una @"],
+  password: [
+    (value) => value.length >= 6,
+    "El password debe tener 6 o mas caracteres",
+  ],
   displayName: [(value) => value.length >= 1, "El nombre es obligatorio"],
-}
+};
 
 const RegisterPage = () => {
+  const dispatch = useDispatch();
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const { status, errorMessage } = useSelector(state => state.auth);
 
-  const [formSubmitted, setFormSubmitted] = useState(false)
+  const isCheckingAuthentication = useMemo(() => status === "checking", [
+    status,
+  ]);
 
   const {
     displayName,
@@ -33,12 +43,12 @@ const RegisterPage = () => {
     passwordValid,
   } = useForm(formData, formValidations);
 
-  
-
   const onSubmit = (event) => {
     event.preventDefault();
     // cuando mandamos el formulario el formSubmitted pasa a true
-    setFormSubmitted(true)
+    setFormSubmitted(true);
+    // Le mando el formState que es el objeto que tiene toda la data
+    dispatch(startCreatingUserWithEmailPassword(formState));
   };
 
   return (
@@ -54,12 +64,11 @@ const RegisterPage = () => {
               fullWidth
               name="displayName"
               value={displayName}
-              onChange={inputChange }
+              onChange={inputChange}
               error={!!displayNameValid && formSubmitted}
               helperText={displayNameValid}
             />
           </Grid>
-
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
               label="Correo"
@@ -68,7 +77,7 @@ const RegisterPage = () => {
               fullWidth
               name="email"
               value={email}
-              onChange={inputChange }
+              onChange={inputChange}
               error={!!emailValid && formSubmitted}
               helperText={emailValid}
             />
@@ -87,8 +96,16 @@ const RegisterPage = () => {
             />
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
+          <Grid item xs={12} display={!!errorMessage ? "" : "none"}>
+              <Alert severity="error">{errorMessage}</Alert>
+          </Grid>
             <Grid item xs={12}>
-              <Button variant="contained" fullWidth type="submit">
+              <Button
+                variant="contained"
+                fullWidth
+                type="submit"
+                disabled={isCheckingAuthentication}
+              >
                 Crear cuenta
               </Button>
             </Grid>

@@ -65,4 +65,23 @@ Validacion de formulario:
     - en las propiedades de error de los inputs le agregamos "&& formSubmitted"
     para que el error se ejecute solo cuando mandamos el form
 
+--------------------------
 
+Creacion de usuario con mail y password:
+
+1) creamos un provider nuevo en providers.js
+2) cramos un nuevo thunk en el mismo archivo de thunks.js
+3) llamamos al thunk en nuestra RegisterPage y despachamos la accion
+
+---------------------------
+Actualizar displayName y autenticar el usuario
+
+1) en el provider agregamos el updateProfile()
+2) en el thunk agregamos un condicional de error y despues despachamos el login
+
+-----------------------------------
+
+Mostrar el mensaje de error
+
+1) Creamos una funcion para que desabilite el btn de crear cuenta mientras el proceso sea checking
+2)
