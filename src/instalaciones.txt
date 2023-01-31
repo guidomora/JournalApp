@@ -84,4 +84,18 @@ Actualizar displayName y autenticar el usuario
 Mostrar el mensaje de error
 
 1) Creamos una funcion para que desabilite el btn de crear cuenta mientras el proceso sea checking
-2)
+
+
+---------------------------------------------------------
+Realizar login de usuario con correo y password:
+
+1) en el LoginPage despachamos el startLoginWithEmailPassword que espera el email y password
+2) en el thunk hacemos el dispatch de checkingCredentials, creamos la constante que viene del await
+    del loginWithEmailPassword (provider) que recibe el email y password
+3) en el provider en la funcion vacia que teniamos de loginWithEmailPassword, recibe el mail y password
+    creamos una const con la funcion signInWithEmailAndPassword que se importa desde firebase, recibe los
+    mismos paremetros email, password y FirebaseAuth,   desestructuramos la resp y luego hacemos un return
+    de lo desestructurado.
+4) el catch es igual a la funcion de registerUSerWithEmailPassword
+5) en el thunk le agregamos el condicional del errorMessage
+

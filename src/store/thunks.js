@@ -1,7 +1,11 @@
-import { registerUSerWithEmailPassword, signInWithGoogle } from "../firebase/providers";
+import {
+  loginWithEmailPassword,
+  registerUSerWithEmailPassword,
+  signInWithGoogle,
+} from "../firebase/providers";
 import { checkingCredentials, login, logout } from "./authSlice";
 
-export const checkingAuthentication = (email, password) => {
+export const checkingAuthentication = () => {
   return async (dispatch) => {
     dispatch(checkingCredentials());
   };
@@ -20,15 +24,38 @@ export const startGoogleSignIn = () => {
 
 // Crear usuario y password
 
-export const startCreatingUserWithEmailPassword = ({email, password, displayName})=> {
+export const startCreatingUserWithEmailPassword = ({
+  uid,
+  photoURL,
+  email,
+  password,
+  displayName,
+}) => {
   return async (dispatch) => {
     // El estado se pone en "checking"
-    dispatch(checkingCredentials())
-    const result  = await registerUSerWithEmailPassword({email, password, displayName})
-    
+    dispatch(checkingCredentials());
+    const result = await registerUSerWithEmailPassword({
+      uid,
+      photoURL,
+      email,
+      password,
+      displayName,
+    });
+    console.log(result);
     // si la funcion fallo nos despacha el mensaje de error
-    if (!result.ok) return dispatch(logout(result.errorMessage))
+    if (!result.ok) return dispatch(logout(result.errorMessage));
 
-    dispatch(login({uid, displayName, email, photoURL}))
-  }
-}
+    dispatch(login({ uid, displayName, email, photoURL }));
+  };
+};
+
+export const startLoginWithEmailPassword = ({ email, password }) => {
+  return async (dispatch) => {
+    dispatch(checkingCredentials());
+    const result = loginWithEmailPassword({ email, password });
+    console.log(result);
+
+    if (!result.ok) return dispatch(logout(result));
+    dispatch(login(result));
+  };
+};

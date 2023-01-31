@@ -5,7 +5,7 @@ import React, { useMemo } from "react";
 import AuthLayout from "../layout/AuthLayout";
 import useForm from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
-import { checkingAuthentication, startGoogleSignIn } from "../../store/thunks";
+import { startGoogleSignIn, startLoginWithEmailPassword } from "../../store/thunks";
 
 // Grid es como un div pero que le podemos agregar propiedades o atributos
 // spacing: espacio entre componentes // direction: seria la flex-direction // alignItems y justifyContent de flex
@@ -33,12 +33,12 @@ const LoginPage = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     console.log(formState);
-    dispatch(checkingAuthentication());
+    dispatch(startLoginWithEmailPassword({email, password}));
   };
 
   const onGoogleSignIn = () => {
     console.log("onGoogleSignIn");
-    dispatch(startGoogleSignIn());
+    dispatch(startGoogleSignIn({email, password}));
   };
 
   return (

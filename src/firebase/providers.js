@@ -1,9 +1,8 @@
 // Proveedores de autenticacion
-
-import { async } from "@firebase/util";
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
+  signInWithEmailAndPassword,
   signInWithPopup,
   updateProfile,
 } from "firebase/auth";
@@ -18,7 +17,6 @@ export const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(FirebaseAuth, googleProvider);
     // const credentials = GoogleAuthProvider.credentialFromResult(result);
-
     // todas las propiedades que estan dentro de result
     const { displayName, email, photoURL, uid } = result.user;
     return {
@@ -52,14 +50,32 @@ export const registerUSerWithEmailPassword = async ({
 
   try {
     // importado de firebase, pide 3 argumentos: auth, email y password
-    const resp = await createUserWithEmailAndPassword(FirebaseAuth, email, password);
-    const {uid, photoURL} = resp.user
+    const resp = await createUserWithEmailAndPassword(
+      FirebaseAuth,
+      email,
+      password
+    );
+    const { uid, photoURL } = resp.user;
     // Nos pide un usuario, lo buscamos de la siguiente manera
-    await updateProfile(FirebaseAuth.currentUser, {displayName})
+    await updateProfile(FirebaseAuth.currentUser, { displayName });
 
-    return {ok: true, uid, photoURL, email, displayName}
+    return { ok: true, uid, photoURL, email, displayName };
   } catch (error) {
+    return { ok: false, errorMessage: error.message };
+  }
+};
 
+export const loginWithEmailPassword = async ({ email, password }) => {
+  try {
+    const resp = await signInWithEmailAndPassword(
+      FirebaseAuth,
+      email,
+      password
+    );
+    const { uid, photoURL, displayName } = resp.user;
+  
+    return { ok: true, uid, photoURL, displayName };
+  } catch (error) {
     return { ok: false, errorMessage: error.message };
   }
 };
