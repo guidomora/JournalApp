@@ -98,4 +98,4 @@ Realizar login de usuario con correo y password:
     de lo desestructurado.
 4) el catch es igual a la funcion de registerUSerWithEmailPassword
 5) en el thunk le agregamos el condicional del errorMessage
-
+6)En el LoginPage, usamos el useSelector y agregamos el componente de alert. basicamente copiar y pegar el del RegisterPage

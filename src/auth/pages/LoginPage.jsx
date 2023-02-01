@@ -1,11 +1,21 @@
 import { Link as RouterLink } from "react-router-dom";
 import { Google } from "@mui/icons-material";
-import { Button, Grid, Link, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Grid,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useMemo } from "react";
 import AuthLayout from "../layout/AuthLayout";
 import useForm from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
-import { startGoogleSignIn, startLoginWithEmailPassword } from "../../store/thunks";
+import {
+  startGoogleSignIn,
+  startLoginWithEmailPassword,
+} from "../../store/thunks";
 
 // Grid es como un div pero que le podemos agregar propiedades o atributos
 // spacing: espacio entre componentes // direction: seria la flex-direction // alignItems y justifyContent de flex
@@ -19,7 +29,7 @@ import { startGoogleSignIn, startLoginWithEmailPassword } from "../../store/thun
 
 const LoginPage = () => {
   // traemos del store el state y del auth buscamos el status
-  const { status } = useSelector((state) => state.auth);
+  const { status, errorMessage } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -33,12 +43,12 @@ const LoginPage = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     console.log(formState);
-    dispatch(startLoginWithEmailPassword({email, password}));
+    dispatch(startLoginWithEmailPassword({ email, password }));
   };
 
   const onGoogleSignIn = () => {
     console.log("onGoogleSignIn");
-    dispatch(startGoogleSignIn({email, password}));
+    dispatch(startGoogleSignIn({ email, password }));
   };
 
   return (
@@ -67,6 +77,16 @@ const LoginPage = () => {
               onChange={inputChange}
             />
           </Grid>
+          <Grid
+            container
+            display={!!errorMessage ? "" : "none"}
+            sx={{ mt: 1, mb: 1 }}
+          >
+            <Grid item xs={12}>
+            <Alert severity='error'>{ errorMessage }</Alert>
+            </Grid>
+          </Grid>
+
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12} sm={6}>
               <Button

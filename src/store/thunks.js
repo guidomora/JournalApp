@@ -25,8 +25,6 @@ export const startGoogleSignIn = () => {
 // Crear usuario y password
 
 export const startCreatingUserWithEmailPassword = ({
-  uid,
-  photoURL,
   email,
   password,
   displayName,
@@ -35,27 +33,25 @@ export const startCreatingUserWithEmailPassword = ({
     // El estado se pone en "checking"
     dispatch(checkingCredentials());
     const result = await registerUSerWithEmailPassword({
-      uid,
-      photoURL,
       email,
       password,
       displayName,
     });
-    console.log(result);
+
     // si la funcion fallo nos despacha el mensaje de error
     if (!result.ok) return dispatch(logout(result.errorMessage));
 
-    dispatch(login({ uid, displayName, email, photoURL }));
+    dispatch(login(result));
   };
 };
 
 export const startLoginWithEmailPassword = ({ email, password }) => {
   return async (dispatch) => {
     dispatch(checkingCredentials());
-    const result = loginWithEmailPassword({ email, password });
-    console.log(result);
 
-    if (!result.ok) return dispatch(logout(result));
-    dispatch(login(result));
+    const result = await loginWithEmailPassword({ email, password });
+
+    if ( !result.ok ) return dispatch( logout( result ) );
+    dispatch( login( result ));
   };
 };
