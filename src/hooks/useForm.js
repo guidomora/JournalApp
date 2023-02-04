@@ -10,6 +10,13 @@ const useForm = (initialForm = {}, formValidations = {}) => {
     // Se dispara cada vez que cambia el formSate
   }, [formState]);
 
+  // efecto para que al cambiar de nota cambie la pantalla tambien
+  useEffect(() => {
+    setFormState(initialForm)
+  }, [initialForm])
+  
+
+
   // usamos el useMemo para memorizar el valor, solo se vuelve a procesar si cambia el
   // formValidation
   // Hay que ver cada una de las propiedades de formValidation y ver c/u sie tiene null

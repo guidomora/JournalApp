@@ -26,8 +26,7 @@ const RegisterPage = () => {
   const dispatch = useDispatch();
   const [formSubmitted, setFormSubmitted] = useState(false);
   const { status, errorMessage } = useSelector(state => state.auth);
-  console.log(errorMessage)
-
+  
   const isCheckingAuthentication = useMemo(() => status === "checking", [
     status,
   ]);
@@ -54,8 +53,7 @@ const RegisterPage = () => {
 
   return (
     <AuthLayout title="Crear cuenta">
-      <h1>FormValid {isFormValid ? "valido" : "incorrecto"}</h1>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className="animate__animated animate__fadeIn">
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField

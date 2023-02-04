@@ -13,11 +13,17 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
+import {useSelector} from "react-redux"
+import SideBarItem from "./SideBarItem";
 
 // En material UI se le conoce como drawer
 // El Divider literalmente es una linea que divide
 
 const SideBar = ({ drawerWidth = 240 }) => {
+
+  const {displayName} = useSelector(state => state.auth)
+  const {notes} = useSelector(state => state.journal)
+
   return (
     <Box
       component={"nav"}
@@ -33,27 +39,13 @@ const SideBar = ({ drawerWidth = 240 }) => {
       >
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            Guido Morabito
+            {displayName}
           </Typography>
         </Toolbar>
         <Divider />
         <List>
-          {["Enero", "Febrero", "Marzo", "Abril"].map((text) => (
-            <ListItem key={text}>
-              <ListItemButton>
-                <ListItemIcon>
-                  <TurnedInNot />
-                </ListItemIcon>
-                <Grid container>
-                  <ListItemText primary={text} />
-                  <ListItemText
-                    secondary={
-                      "Esta es una prueba para poner string, no funcionaba el lorem ipsum"
-                    }
-                  />
-                </Grid>
-              </ListItemButton>
-            </ListItem>
+          {notes.map((note) => (
+            <SideBarItem key={note.id} {...note}/>
           ))}
         </List>
       </Drawer>

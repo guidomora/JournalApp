@@ -1,0 +1,99 @@
+journalSlice:
+
+1) en la carpeta store creamos una que se llama journal y dentro de ella 2
+    archivos. thunks y journalSlice.
+2) en el journalSlice usamos el snippet creado
+3) en el store agregamos el journalSlice
+4)creamos el initialState en el journalSlice
+5) creamos las acciones en el slice (vacias) y las pasamos al action creator
+
+---------------------------------------------
+
+Preparando la base de datos  Cloud Firestore
+
+al ser una tarea asincrona lo tenemos que crear en tl thunk
+
+
+1) en tl thunk creamos startNewNote para que al hacer clic en el + podamos crear una nota nueva
+2) en startNewNote llamamos al getState para poder obteer el uid
+3) creamos la referencia para insertar la nueva nota con el uid obtenido arriba
+4) editamos las reglas de firestore para que nos deje crear en la base de datos 
+    si la persona esta autenticada.
+5) la insercion ya se puede hacer, obvio que con datos vacios 
+---------------------------------------------
+
+Activar la nota creada :
+
+1) Le creamos el id a la newNote
+2) rellenamos el reducer addEmptyNote 
+3) despachamos addEmptyNote en el thunk
+4) rellenamos el reducer setActiveNote y despues en el thunk lo despachamos
+5) rellenamos el reducer savingNewNote y despues en el thunk lo despachamos
+6) condicional para que si hay una nota activa muestre NoteView sino NothingSelectedView
+
+---------------------------------------------
+
+Cargar notas de firestore:
+
+1) En el thunks creamos la funcion startLoadingNotes ya que es asincrona
+2) en el useCheckAuth despachamos el startLoadingNotes dentro del useEffect
+3) Creamos una carpeta helpers y creamos el archivo loadNotes que se va a encargar de cargar las notas
+4) en el slice rellenamos el reducer setNotes
+5) En el thunk despachamos el reducer setNotes
+
+---------------------------------------------
+
+Mostrar la nostas en el SideBar:
+
+1) Antes en el SideBar teniamos un map de un array de strings, eso lo cambiamos por notes
+    y ya las podemos ver
+2) Creamos un Componente SideBarItem para reducir la logica
+3) en el SideBarItem creamos una constante para que si el titulo es muy largo le agregue
+    puntos suspensivos
+
+---------------------------------------------
+Activar una nota: 
+
+1) en SideBarItem despachamos setActiveNote
+
+---------------------------------------------
+Activar una nota para su edicion: 
+
+1) En el NoteView importamos el useForm 
+2) aplicamos el useForm en el Componente
+3) agregamos un useEffect en el useForm para que al cambiar de nota se actualice en la pantalla
+
+---------------------------------------------
+Actualizar nota actual: 
+
+1) creamos un usteEffect en el NoteView
+2) creamos una funcion donde vamos a despachar onSaveNote
+3) en el thunk creamos onSaveNote
+4) en el slice rellenamos el updateNote
+5) en el thunk lo despachamos  
+6) instalamos npm install sweetalert2
+7) en updateNote le agregamos la modificacion al messageSaved
+8) en NoteView creamos otro useEffect con el messageSaved y le agregamos sweetalert2
+---------------------------------------------
+
+Subir imagenes:
+
+1) configuramos la cuenta de cloudinary y usamos postman
+2) creamos el input con el type "files" y multiple
+3) creamos la funcion que va controlar el input, vacia todavia
+4) con el display none hacemos que el input desaparezca de la vista, ya que no lo podemos
+    estilizar.
+5) creamos una constante con el useRef
+6) en el input a la propiedad ref le pasamos como argunmento la constante creada arriba
+7) en el onclick le agregamos una funcion para que simule el click en el input 
+
+---------------------------------------------
+
+Subir imagen a cloudinary:
+
+1) al ser un proceso asincrono tenemos que hacerlo en un thunk 
+2) creamos la funcion startUploadingFiles
+3) como va a haber mucho codio para crear la carga de archivo creamos un helper fileUpload
+4) en fileUpload creamos la peticion http POST 
+5) en el thunk hacemos el await de fileUpload pero queda asi provisorio. de esta forma solo se estaria pudiendo Subir
+    una sola imagen, mas adelante vamos a modificarlo para poder subir multiples imagenes

@@ -99,3 +99,44 @@ Realizar login de usuario con correo y password:
 4) el catch es igual a la funcion de registerUSerWithEmailPassword
 5) en el thunk le agregamos el condicional del errorMessage
 6)En el LoginPage, usamos el useSelector y agregamos el componente de alert. basicamente copiar y pegar el del RegisterPage
+
+---------------------------------------------------------
+
+Checking Authentitcation:
+
+1)Creamos la carpeta ui dentro components y creamos el archivo checkingAuth
+2) Creamos el componente
+3) en el slice cambiamos el status del initialState por "checking"
+4) vamos al appRouter usamos el useSelector para traer el status y creamos el condicional
+
+
+--------------------------------------------
+
+Mantener el estado de la autenticación al recargar
+
+1) en AppRouter creamos un useEffect
+2)dispatch del usuario
+3) un condicional de si tenemos el usuario o no 
+4) condicional de las rutas
+5) ruta por defecto
+
+--------------------------------------------
+
+Custom hook para la autenticacion:
+
+1) en la carpeta hooks creamos useCheckAuth.js
+2) recortamos la parte del codigo del AppRouter y la pegamos en el archivo
+3) al custom hook le agregamos el return del status
+4) en AppRouter llamamos al custom hook
+
+--------------------------------------------
+
+Logout de Firebase:
+
+ 1) en providers creamos la funcion logoutFirebase
+ 2) en thunks creamos la funcion startLogout que espera que se haga el logout de firebase
+    y despues despacha el logout del slice
+3) en el navbar llamamos al dispatch
+4) creamos la funcion onLogout que despacha el startLogout 
+5) en el boton llamamos a onLogout
+6)usamos el useSelector para trae el displayName y lo ponemos en el SideBar

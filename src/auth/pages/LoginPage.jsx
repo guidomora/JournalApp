@@ -27,16 +27,18 @@ import {
 
 // TextField seria como un input
 
+const formData = {
+  email: "",
+  password: "",
+};
+
 const LoginPage = () => {
   // traemos del store el state y del auth buscamos el status
   const { status, errorMessage } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
-  const { email, password, inputChange, formState } = useForm({
-    email: "guido@mail.com",
-    password: "123456",
-  });
+  const { email, password, inputChange, formState } = useForm(formData);
 
   const isAuthenticating = useMemo(() => status === "checking", [status]);
 
@@ -53,7 +55,7 @@ const LoginPage = () => {
 
   return (
     <AuthLayout title="Login">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className="animate__animated animate__fadeIn">
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -83,7 +85,7 @@ const LoginPage = () => {
             sx={{ mt: 1, mb: 1 }}
           >
             <Grid item xs={12}>
-            <Alert severity='error'>{ errorMessage }</Alert>
+              <Alert severity="error">{errorMessage}</Alert>
             </Grid>
           </Grid>
 
