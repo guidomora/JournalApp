@@ -7,6 +7,7 @@ import {
   savingNewNote,
   setActiveNote,
   setNotes,
+  setPhotosToActiveNote,
   setSaving,
   updateNote,
 } from "./journalSlice";
@@ -47,7 +48,7 @@ export const startLoadingNotes = () => {
 
 export const startSaveNote = () => {
   return async (dispatch, getState) => {
-    dispatch(setSaving())
+    dispatch(setSaving());
     const { uid } = getState().auth;
     const { active: note } = getState().journal;
     // Como viene un id en note, tenemos que removerlo
@@ -58,14 +59,26 @@ export const startSaveNote = () => {
     // impactando firebase, el merge serviria como para unir ej: si habia campos que no
     // existian, los une
     await setDoc(docRef, noteToFireStore, { merge: true });
-    dispatch(updateNote(note))
+    dispatch(updateNote(note));
   };
 };
 
 export const startUploadingFiles = (files = []) => {
   return async (dispatch) => {
     // para poner a la app en un estado de carga y bloquear todo
-    dispatch(setSaving())
-    await fileUpload (files[0])
-  }
-}
+    dispatch(setSaving());
+    // await fileUpload (files[0])
+
+    const fileUploadPromises = [];
+
+    for (const file of files) {
+      // Le decimos a este arregl de promesas que empiece a almacenarlas ahi
+      fileUploadPromises.push(fileUpload(file));
+
+      const photosUrls = await Promise.all(fileUploadPromises);
+      console.log(photosUrls);
+
+      dispatch(setPhotosToActiveNote(photosUrls));
+    }
+  };
+};

@@ -97,3 +97,12 @@ Subir imagen a cloudinary:
 4) en fileUpload creamos la peticion http POST 
 5) en el thunk hacemos el await de fileUpload pero queda asi provisorio. de esta forma solo se estaria pudiendo Subir
     una sola imagen, mas adelante vamos a modificarlo para poder subir multiples imagenes
+
+---------------------------------------------
+
+Subir multiples imagenes en simultaneo:
+
+1) creamos un array de promesas
+2) creamos un for que se va a encargar de subir las imagenes 
+3) en el slice creamos setPhotosToActiveNote
+4) lo despachamos en startUploadingFiles

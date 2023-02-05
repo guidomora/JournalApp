@@ -10,12 +10,12 @@ import React, { useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { setActiveNote } from "../../store/journal/journalSlice";
 
-const SideBarItem = ({ title = "", body, id, date, imageUrl =[]}) => {
+const SideBarItem = ({ title = "", body, id, date, imageUrls =[]}) => {
     const dispatch =  useDispatch()
 
     const onClickNote = () => {
         // le pasamos todas las propiedades de la nota entera
-        dispatch(setActiveNote({ title, body, id, date, imageUrl}));
+        dispatch(setActiveNote({ title, body, id, date, imageUrls}));
       };
 
   const newTitle = useMemo(() => {
