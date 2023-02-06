@@ -9,7 +9,7 @@ import { journalSlice } from './journal/journalSlice'
     auth: authSlice.reducer,
     journal: journalSlice.reducer,
   },
-  devTools: true
+  devTools: false
 })
 
 export default store
