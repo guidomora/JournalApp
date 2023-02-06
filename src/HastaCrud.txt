@@ -106,3 +106,26 @@ Subir multiples imagenes en simultaneo:
 2) creamos un for que se va a encargar de subir las imagenes 
 3) en el slice creamos setPhotosToActiveNote
 4) lo despachamos en startUploadingFiles
+
+---------------------------------------------
+ Mostrar las imagenes cargadas:
+
+ 1) En NoteView al ImageGallery creamos el parametro images y le pasamos las imagenes
+ 2) en ImageGallery recibimos como parametro images
+ 3) dentro del ImageGallery borramos las imagenes anteriores y reemplazamos todo lo del map
+    por image 
+
+---------------------------------------------
+
+Limpiar las notras al cerrar la sesion:
+
+1) en el slice creamos clearNotesLogout
+2) despues lo despachamos en el thunk pero de la auth
+
+---------------------------------------------
+
+Borrar una nota:
+
+ 1) creamos el icono en el NoteView
+ 2) en el thunk creamos startDeletingNote y despachamos deleteNoteById (no esta creada)
+ 3) en el slice creamos deleteNoteById

@@ -1,9 +1,10 @@
-import { collection, doc, setDoc } from "firebase/firestore/lite";
+import { collection, deleteDoc, doc, setDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import { fileUpload } from "../../helpers/fileUpload";
 import { loadNotes } from "../../helpers/loadNotes";
 import {
   addEmptyNote,
+  deleteNoteById,
   savingNewNote,
   setActiveNote,
   setNotes,
@@ -69,16 +70,29 @@ export const startUploadingFiles = (files = []) => {
     dispatch(setSaving());
     // await fileUpload (files[0])
 
+    // Arreglo de laspromesas que tenemos que disparar
     const fileUploadPromises = [];
 
     for (const file of files) {
       // Le decimos a este arregl de promesas que empiece a almacenarlas ahi
       fileUploadPromises.push(fileUpload(file));
-
+    }
+      // Con el promise.all una vez que se resuelven todas, recien tenemos la respuesta
       const photosUrls = await Promise.all(fileUploadPromises);
       console.log(photosUrls);
 
       dispatch(setPhotosToActiveNote(photosUrls));
-    }
   };
 };
+
+export const startDeletingNote = () => {
+  return async (dispatch, getState) => {
+    const {uid} = getState().auth;
+    const {active: note} = getState().journal
+
+    const docRef = doc(FirebaseDB, `${uid}/journal/notes/${note.id}`)
+    // El deleteDoc no regresa nada, lo hace bien o no lo hace
+    await deleteDoc(docRef)
+    dispatch(deleteNoteById(note.id))
+  }
+}
